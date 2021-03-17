@@ -13,19 +13,14 @@ export class InputFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private macroDataService: MacroDataService
+    private macroDataService: MacroDataService,
   ) {}
 
   ngOnInit(): void {}
 
   onSubmit(): void {
-
-    const {controls} = this.calculatorForm;
+    const { controls } = this.calculatorForm;
     const macros = {
-      age: controls.age.value,
-      gender: controls.gender.value,
-      height: controls.height.value,
-      weight: controls.weight.value,
       proteinRatio: controls.proteinRatio.value,
       fatRatio: controls.fatRatio.value,
       activityLevel: controls.activityLevel.value,

@@ -1,4 +1,5 @@
 <div>
+  <app-biometrics updatesBiometrics="updatesBiometrics($event)"></app-biometrics>
   <app-input-form (updatesMacros)="updatesMacros($event)"></app-input-form>
-  <app-display-table [macros]="macros"></app-display-table>
+  <app-display-table (biometrics)="biometrics" [macros]="macros"></app-display-table>
 </div>
