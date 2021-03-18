@@ -1,6 +1,6 @@
 import { EventEmitter, Output, Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MacroDataService, Macros } from '../services/macro-data.service';
+import { MacroDataService, Macros } from '../services/macro-data/macro-data.service';
 
 @Component({
   selector: 'app-input-form',

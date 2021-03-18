@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Gender } from './__types__';
+import { Gender } from '../../__types__';
 
 export interface Biometrics {
   gender: Gender;

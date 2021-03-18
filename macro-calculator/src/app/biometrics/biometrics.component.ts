@@ -1,6 +1,6 @@
 import { EventEmitter, Output, Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Biometrics, BiometricsService } from '../biometrics.service';
+import { Biometrics, BiometricsService } from '../services/biometrics/biometrics.service';
 
 @Component({
   selector: 'app-biometrics',

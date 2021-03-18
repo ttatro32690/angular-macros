@@ -1,8 +1,14 @@
 import { Component } from '@angular/core';
-import { Macros, MacroDataService } from './services/macro-data.service';
+import {
+  Macros,
+  MacroDataService,
+} from './services/macro-data/macro-data.service';
 import { calculateBmr } from './services/calculateMacros/basalMetabolicRate';
 import { calculateMacroRatios } from './services/calculateMacros/macroRatios';
-import { Biometrics, BiometricsService } from './biometrics.service';
+import {
+  Biometrics,
+  BiometricsService,
+} from './services/biometrics/biometrics.service';
 
 @Component({
   selector: 'app-root',
@@ -13,33 +19,44 @@ export class AppComponent {
   title = 'macro-calculator';
   macros = this.macroDataService.getMacros();
   biometrics = this.biometricsService.getBiometrics();
+  macroCalculation = calculateMacroRatios({
+    weight: this.biometricsService.weight,
+    basalMetabolicRate: calculateBmr({
+      ...this.macroDataService.getMacros(),
+      ...this.biometricsService.getBiometrics(),
+    }),
+    activityLevel: this.macroDataService.activityLevel,
+    ratios: {
+      fat: this.macroDataService.fatRatio,
+      protein: this.macroDataService.proteinRatio,
+    },
+  });
 
   updatesMacros(event: Macros) {
-    this.macros = event;
-    this.handleMetricChange();
+    this.macroDataService.setMacros(event);
+    this.macros = this.macroDataService.getMacros();
+    this.macroCalculation = this.handleMetricChange();
   }
 
   updatesBiometrics(event: Biometrics) {
-    this.biometrics = event;
-    this.handleMetricChange();
+    this.biometricsService.updateBiometrics(event);
+    this.biometrics = this.biometricsService.getBiometrics();
+    this.macroCalculation = this.handleMetricChange();
   }
 
   handleMetricChange() {
-    const bmrCalculation = calculateBmr({
-      ...this.macros,
-      ...this.biometricsService,
-    });
-    const macroCalculation = calculateMacroRatios({
+    return calculateMacroRatios({
       weight: this.biometricsService.weight,
-      basalMetabolicRate: bmrCalculation,
-      activityLevel: this.macros.activityLevel,
+      basalMetabolicRate: calculateBmr({
+        ...this.macroDataService.getMacros(),
+        ...this.biometricsService.getBiometrics(),
+      }),
+      activityLevel: this.macroDataService.activityLevel,
       ratios: {
-        fat: this.macros.fatRatio,
-        protein: this.macros.proteinRatio,
+        fat: this.macroDataService.fatRatio,
+        protein: this.macroDataService.proteinRatio,
       },
     });
-
-    console.log(macroCalculation);
   }
 
   constructor(
